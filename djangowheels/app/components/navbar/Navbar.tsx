@@ -2,6 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
+import SearchFilters from './SearchFilters';
+
 const Navbar = () => {
   return (
     <div className='w-full fixed top-0 left-0 py-6 border-b bg-white z-10'>
@@ -15,6 +17,14 @@ const Navbar = () => {
                         height={38}
                     />
                 </Link>
+
+                <div className="flex space-x-6">
+                    <SearchFilters />
+                </div>
+
+                <div className="flex items-center spaxe-x-6">
+                    Add property - User Nav
+                </div>
             </div>
         </div>
     </div>
