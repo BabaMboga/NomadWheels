@@ -9,8 +9,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        'nomadWheels': '#80CBC4',
+        'nomadWheels-dark': '#00382D'
       },
     },
   },
