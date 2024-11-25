@@ -14,7 +14,7 @@ const Navbar = () => {
                         src = "/logo.png"
                         alt = "nomadwheels logo"
                         width={180}
-                        height={38}
+                        height={5}
                     />
                 </Link>
 
