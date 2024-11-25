@@ -1,12 +1,9 @@
-
+import Categories from "./components/Categories";
 
 export default function Home() {
   return (
-    <main className="">
-      NomadWheels
-      <h2 className="text-nomadWheels">
-        Django and next rule
-      </h2>
+    <main className="max-w-[1500px] mx-auto px-6">
+      <Categories />
     </main>
   );
 }
