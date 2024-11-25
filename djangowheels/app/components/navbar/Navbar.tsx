@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import SearchFilters from './SearchFilters';
+import UserNav from './UserNav';
 
 const Navbar = () => {
   return (
@@ -23,7 +24,9 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex items-center spaxe-x-6">
-                    Add property - User Nav
+                    Add property
+
+                <UserNav />
                 </div>
             </div>
         </div>
