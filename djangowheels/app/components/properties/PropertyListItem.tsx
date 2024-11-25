@@ -20,7 +20,7 @@ const PropertyListItem = () => {
 
         <div className='mt-2'>
             <p className="text-sm text-gray-500">
-                <strong>$200</strong> per night
+                <strong>$200</strong> per day
             </p>
         </div>
     </div>
