@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ContactButton from "@/app/components/ContactButton";
 
 const OwnerDetailPage = () => {
     return (
@@ -15,6 +16,7 @@ const OwnerDetailPage = () => {
                     />
 
                     <h1 className="mt-6 text-2xl">Landlord name</h1>
+                    <ContactButton />
                 </div>
             </aside>
 
