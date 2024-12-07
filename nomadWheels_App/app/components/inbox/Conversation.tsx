@@ -2,7 +2,11 @@ import React from 'react'
 
 const Conversation = () => {
   return (
-    <div>Conversation</div>
+    <div className='px-6 py-4 cursor-pointer border border-gray-300 rounded-xl'>
+        <p className="mb-6 text-xl">John Doe</p>
+
+        <p className="text-nomadWheels-dark">Go to conversation</p>
+    </div>
   )
 }
 
