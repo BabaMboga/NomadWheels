@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased inter.className`}
       >
 
         <Navbar />
@@ -37,7 +37,10 @@ export default function RootLayout({
           {children}
         </div>
 
-        <Modal />
+        <Modal 
+
+          label = 'Modal Test'
+        />
         
       </body>
     </html>
