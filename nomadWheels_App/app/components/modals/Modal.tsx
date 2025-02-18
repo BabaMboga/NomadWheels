@@ -3,10 +3,12 @@ import React from 'react';
 
 interface ModalProps {
     label: string
+    content: React.ReactElement
 }
 
 const Modal: React.FC<ModalProps> = ({
-    label
+    label,
+    content
 }) => {
     return (
         <div className="flex items-center justify-center fixed inset-0 z-50 bg-black/60">
@@ -26,8 +28,10 @@ const Modal: React.FC<ModalProps> = ({
                         </header>
 
                         <section className="p-6">
-                            stuff
+                            {content}
                         </section>
+
+                        
                     </div>
                 </div>
             </div>
