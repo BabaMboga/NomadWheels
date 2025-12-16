@@ -45,6 +45,7 @@ export default function RootLayout({
 
           label = 'Modal Test'
           content = {content}
+          isOpen = {true}
         />
         
       </body>
