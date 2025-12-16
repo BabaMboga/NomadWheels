@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./components/navbar/Navbar";
-import Modal from "./components/modals/Modal";
+import LoginModal from "./components/modals/LoginModal";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -17,7 +17,8 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Nomad Wheels",
-  description: "Your ultimate platform to discover, book, and share vehicles effortlessly.",
+  description:
+    "Your ultimate platform to discover, book, and share vehicles effortlessly.",
 };
 
 export default function RootLayout({
@@ -25,29 +26,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  const content = (
-    <p className=""> Yo </p>
-  )
+  // const content = <p className=""> Yo </p>;
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased inter.className`}
       >
-
         <Navbar />
 
-        <div className="pt-32">
-          {children}
-        </div>
-
-        <Modal 
-
-          label = 'Modal Test'
-          content = {content}
-          isOpen = {true}
-        />
-        
+        <div className="pt-32">{children}</div>
+        <LoginModal/>
       </body>
     </html>
   );
