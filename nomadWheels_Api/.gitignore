@@ -1,0 +1,35 @@
+# =========================
+# NomadWheels API Backend
+# =========================
+
+# virtual environments
+venv/
+.env/
+.env.*
+env/
+venv/
+.env*
+
+# python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# logs
+*.log
+
+# database
+*.sqlite3
+*.db
+
+# uploads / generated files
+media/
+staticfiles/
+
+# OS
+.DS_Store
+
+# editor
+.vscode/
+.idea/
