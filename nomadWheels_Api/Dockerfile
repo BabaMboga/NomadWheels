@@ -10,7 +10,7 @@ ENV PYTHONUNBUFFERED=1
 
 # Install system dependencies (only if needed)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    netcat \
+    netcat-openbsd \
     build-essential \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
