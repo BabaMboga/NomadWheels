@@ -11,4 +11,17 @@ services:
       - ./nomadWheels_Api/.env
     volumes:
       - ./nomadWheels_Api:/app
+    depends_on:
+      - db
     restart: unless-stopped
+  db:
+    image: postgres:16
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgresuser
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: nomadwheels
+
+volumes:
+  postgres_data:
