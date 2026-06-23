@@ -48,10 +48,18 @@ SIMPLE_JWT = {
     "ALGORITHM" : "HS512",
 }
 
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
+
+# Deprecated Allauth Setting
+# ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_SIGNUP_FIELDS = ['email*','username*', 'password1*', 'password2*']
+
 ACCOUNT_REFRESH_TOKEN = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+# Deprecated Allauth Setting
+# ACCOUNT_AUTHENTICATION_METHOD = 'email' 
+
+ACCOUNT_LOGIN_METHODS = {"email"}
 ACCOUNT_EMAIL_VERIFICATION = os.environ.get("ACCOUNT_EMAIL_VERIFICATION", "optional")
 
 REST_FRAMEWORK = {
@@ -63,10 +71,10 @@ REST_FRAMEWORK = {
     )
 }
 
-CORS_ALLOWED_ORIGINS = {
+CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',
     'http://127.0.0.1:3000',
-}
+]
 
 REST_AUTH = {
     "USE_JWT" : True,
@@ -112,7 +120,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware'
 ]
 
 ROOT_URLCONF = 'nomadWheels_backend.urls'
