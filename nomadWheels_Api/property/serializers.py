@@ -21,7 +21,7 @@ class PropertyImageSerializer(serializers.ModelSerializer):
     
 class PropertyListSerializer(serializers.ModelSerializer):
     """
-        Lightweight serializer for list views ( search,results, homepage, etc.)
+        Lightweight serializer for list views ( search,results, homepage, cards etc.)
     """
     primary_image_url = serializers.SerializerMethodField()
     owner_name = serializers.CharField(source='owner.get_full_name',read_only=True)
@@ -60,7 +60,7 @@ class PropertyListSerializer(serializers.ModelSerializer):
     
 class PropertyDetailSerializer(serializers.ModelSerializer):
     """
-        Full serializer for detailviews with all relationships
+        Full serializer for detail views with all relationships
     """
     images = PropertyImageSerializer(source='property_images', many=True,read_only=True)
     owner = serializers.SerializerMethodField()
@@ -176,7 +176,7 @@ class PropertyCreateUpdateSerializer(serializers.ModelSerializer):
     
 class BookingSerializer(serializers.ModelSerializer):
     """
-        Base booking serializer
+        Base booking serializer for listing user's bookings
     """
     property_title = serializers.CharField(source='property.title', read_only=True)
     primary_driver_name = serializers.CharField(source='primary_driver.get_full_name', read_only=True)
