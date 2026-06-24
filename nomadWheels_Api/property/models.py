@@ -66,7 +66,56 @@ class Property(models.Model):
         ],
         default = 'economy'
     )
-    # favorited
-    image = models.ImageField(upload_to='uploads/properties')
-    landlord = models.ForeignKey(User,related_name='properties', on_delete=models.CASCADE)
+
+    # relationships
+    favorited = models.ManyToManyField(User, related_name='favorite_vehicles', blank=True)
+    # image = models.ImageField(upload_to='uploads/properties')
+    images = models.ManyToManyField('PropertyImage', blank=True, related_name='properties')
+    owner = models.ForeignKey(User,related_name='properties', on_delete=models.CASCADE)
+
+    #status
+    is_available = models.BooleanField(default=True)
+    is_insured = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.year} {self.make} {self.model} - {self.title}"
+    
+    def primary_image_url(self):
+        primary = self.images.filter(is_primary=True).first()
+        if primary:
+            return f'{settings.WEBSITE_URL}{primary.image.url}'
+        first = self.images.first()
+        if first:
+            return f'{settings.WEBSITE_URL}{first.image.url}'
+        return None
+    
+class PropertyImage(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    property = models.ForeignKey(Property, related_name='property_images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='uploads/properties')
+    is_primary = models.BooleanField(default=False, help_text="Main display image")
+    caption = models.CharField(max_length=255, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def image_url(self):
+        return f"{settings.WEBSITE_URL}{self.image.url}"
+    
+class Booking(models.Model):
+    STATUS_CHOICES = [
+        ('pending',"Pending"),
+        ('confirmed',"Confirmed"),
+        ('active',"Active"),
+        ('completed',"Completed"),
+        ('cancelled',"Cancelled"),
+        ('disputed',"Disputed"),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    property = models.ForeignKey(Property, related_name='bookings',on_delete=models.CASCADE)
+
+    # Dates
+    start
