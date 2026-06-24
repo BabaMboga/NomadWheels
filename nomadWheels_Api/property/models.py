@@ -118,4 +118,62 @@ class Booking(models.Model):
     property = models.ForeignKey(Property, related_name='bookings',on_delete=models.CASCADE)
 
     # Dates
-    start
+    start_date = models.DateField(help_text="Pickup date")
+    end_date = models.DateField(help_text="Return date")
+    pickup_time = models.TimeField(null=True, blank=True)
+    return_time = models.TimeField(null=True, blank=True)
+
+    # Duration & pricing
+    number_of_days = models.IntegerField()
+    daily_rate = models.IntegerField(help_text="Rate applied at time of booking")
+    total_price = models.FloatField()
+
+    # Drive details
+    primary_driver = models.ForeignKey(
+        User,
+        related_name = 'bookings',
+        on_delete=models.CASCADE,
+        help_text="The user who made the booking"
+    )
+    additional_drivers = models.ManyToManyField(
+        User,
+        related_name='additional_drivers',
+        blank=True,
+        help_text="A second driver allowed to handle the property"
+    )
+
+    # requirements
+    driver_age = models.IntegerField(null=True, blank=True)
+    has_valid_license = models.BooleanField(default=False)
+    license_number = models.CharField(max_length=100, blank=True)
+    license_expiry = models.DateField(null=True, blank=True)
+
+    # Status & tracking 
+    status = models.CharField(
+        max_length=20,
+        choices = STATUS_CHOICES,
+        default='pending'
+    )
+    mileage_at_pickup = models.IntegerField(null=True, blank=True, help_text="Odometer reading")
+
+    # Reviews
+    owner_review = models.TextField(blank=True)
+    renter_review = models.TextField(blank=True)
+
+    class Rating(models.IntegerChoices):
+        ONE = 1, "1"
+        TWO = 2, "2"
+        THREE = 3, "3"
+        FOUR = 4, "4"
+        FIVE = 5, "5"
+    owner_rating = models.IntegerField(null=True, blank=True, choices=Rating.choices)
+    renter_rating = models.IntegerField(null=True, blank=True, choices=Rating.choices)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    upated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self) -> str:
+        return f"Booking #{str(self.id)[:8]} - {self.property}"
