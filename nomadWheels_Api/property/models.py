@@ -170,7 +170,7 @@ class Booking(models.Model):
     renter_rating = models.IntegerField(null=True, blank=True, choices=Rating.choices)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    upated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['-created_at']
