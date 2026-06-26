@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Property, PropertyImage, Booking
 
 class PropertyImageSerializer(serializers.ModelSerializer):
-    image_url = serializers.SerializerMethoField()
+    image_url = serializers.SerializerMethodField()
 
     class Meta:
         model = PropertyImage
