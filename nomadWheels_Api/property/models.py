@@ -102,7 +102,7 @@ class Property(models.Model):
     
 class PropertyImage(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    property = models.ForeignKey(Property, related_name='images', on_delete=models.CASCADE)
+    property_listing = models.ForeignKey(Property, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='uploads/properties')
     is_primary = models.BooleanField(default=False, help_text="Main display image")
     caption = models.CharField(max_length=255, blank=True)
@@ -115,7 +115,7 @@ class PropertyImage(models.Model):
     def save(self, *args, **kwargs):
         if self.is_primary:
             PropertyImage.objects.filter(
-                property=self.property,
+                property=self.property_listing,
                 is_primary=True
             ).exclude(pk=self.pk).update(is_primary=False)
 
