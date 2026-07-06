@@ -8,7 +8,7 @@ from .models import Property, PropertyImage
 
 class PropertyImageInline(admin.TabularInline):
     model = PropertyImage
-    extra = 2
+    extra = 1
     fields = ['image', 'is_primary', 'caption']
 
 @admin.register(Property)
