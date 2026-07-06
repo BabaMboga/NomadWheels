@@ -102,7 +102,13 @@ class Property(models.Model):
     
 class PropertyImage(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    property_listing = models.ForeignKey(Property, related_name='images', on_delete=models.CASCADE)
+    property_listing = models.ForeignKey(
+        Property, 
+        related_name='images', 
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
     image = models.ImageField(upload_to='uploads/properties')
     is_primary = models.BooleanField(default=False, help_text="Main display image")
     caption = models.CharField(max_length=255, blank=True)
@@ -123,7 +129,7 @@ class PropertyImage(models.Model):
         super().save(*args, **kwargs)
     
     def __str__(self):
-        return self.caption or self.image.name
+        return self.caption or self.image.name or "Unnamed Image"
     
 class Booking(models.Model):
     STATUS_CHOICES = [
