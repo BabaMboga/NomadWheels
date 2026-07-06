@@ -121,7 +121,7 @@ class PropertyImage(models.Model):
     def save(self, *args, **kwargs):
         if self.is_primary:
             PropertyImage.objects.filter(
-                property=self.property_listing,
+                property_listing=self.property_listing,
                 is_primary=True
             ).exclude(pk=self.pk).update(is_primary=False)
 
