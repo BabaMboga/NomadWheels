@@ -116,7 +116,10 @@ class PropertyImage(models.Model):
 
     @property
     def image_url(self):
-        return f"{settings.WEBSITE_URL}{self.image.url}"
+        if self.image:
+            website_url = getattr(settings, 'WEBSITE_URL', '')
+            return f"{settings.WEBSITE_URL}{self.image.url}"
+        return None
     
     def save(self, *args, **kwargs):
         if self.is_primary:
