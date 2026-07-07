@@ -17,7 +17,7 @@ class PropertyImageSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at']
 
     def get_image_url(self, obj):
-        return obj.image_url()
+        return obj.image_url
     
 class PropertyListSerializer(serializers.ModelSerializer):
     """
@@ -45,27 +45,28 @@ class PropertyListSerializer(serializers.ModelSerializer):
             'primary_image_url',
             'owner_name',
             'is_available',
+            'is_insured',
             'is_favorited',
             'created_at',
         ]
 
     def get_primary_image_url(self,obj):
-        return obj.primary_image_url()
+        return obj.primary_image_url
     
     def get_is_favorited(self,obj):
         request = self.context.get('request')
         if request and request.user.is_authenticated:
-            return obj.favortied.filter(id=request.user.id).exists()
+            return obj.favorited.filter(id=request.user.id).exists()
         return False
     
 class PropertyDetailSerializer(serializers.ModelSerializer):
     """
         Full serializer for detail views with all relationships
     """
-    images = PropertyImageSerializer(source='property_images', many=True,read_only=True)
+    images = PropertyImageSerializer(source='images', many=True,read_only=True)
     owner = serializers.SerializerMethodField()
-    is_favortied = serializers.SerializerMethodField()
-    favorited_count = serializers.IntegerField(source='favortied.count', read_only=True)
+    is_favorited = serializers.SerializerMethodField()
+    favorited_count = serializers.IntegerField(source='favorited.count', read_only=True)
     bookings_count = serializers.IntegerField(source='bookings.count', read_only=True)
 
     class Meta:
@@ -158,7 +159,7 @@ class PropertyCreateUpdateSerializer(serializers.ModelSerializer):
         property_instance = Property.objects.create(**validated_data)
 
         for image in uploaded_images:
-            PropertyImage.objects.create(property=property_instance,image=image)
+            PropertyImage.objects.create(property_listing=property_instance,image=image)
 
         return property_instance
     
@@ -170,7 +171,7 @@ class PropertyCreateUpdateSerializer(serializers.ModelSerializer):
         instance.save()
 
         for image in uploaded_images:
-            PropertyImage.objects.create(property=instance, image=image)
+            PropertyImage.objects.create(property_listing=instance, image=image)
 
         return instance
     
@@ -210,7 +211,7 @@ class BookingSerializer(serializers.ModelSerializer):
             'owner_rating',
             'renter_rating',
             'created_at',
-            'upated_at',
+            'updated_at',
         ]
         read_only_fields = [
             'id', 'created_at', 'updated_at',
@@ -259,7 +260,7 @@ class BookingCreateSerializer(serializers.ModelSerializer):
 
         #calculate pricing 
         from datetime import datetime
-        delta = validated_data['end_data'] - validated_data['start_date']
+        delta = validated_data['end_date'] - validated_data['start_date']
         number_of_days = delta.days
 
         validated_data['number_of_days'] = number_of_days
@@ -303,7 +304,7 @@ class BookingDetailSerializer(serializers.ModelSerializer):
             'owner_rating',
             'renter_rating',
             'created_at',
-            'upated_at',
+            'updated_at',
         ]
 
     def get_primary_driver(self, obj):

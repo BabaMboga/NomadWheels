@@ -1,3 +1,44 @@
 from django.contrib import admin
+from django import forms
+from django.contrib.admin.widgets import FilteredSelectMultiple
+
 
 # Register your models here.
+from .models import Property, PropertyImage
+
+# Replaced the below because it doesnt allow for admin to show image attribute directly
+# admin.site.register(Property)
+
+class PropertyAdminForm(forms.ModelForm):
+    class Meta:
+        model = Property
+        fields = '__all__'
+        widgets = {
+            'favorited' : FilteredSelectMultiple(
+                verbose_name = 'Users who favorited this',
+                is_stacked=False,
+            ),
+        }
+
+class PropertyImageInline(admin.TabularInline):
+    model = PropertyImage
+    extra = 1
+    fields = ['image', 'is_primary', 'caption']
+
+@admin.register(Property)
+class PropertyAdmin(admin.ModelAdmin):
+    form = PropertyAdminForm
+    list_display = ['title', 'make', 'model', 'year', 'price_per_day', 'is_available', 'created_at']
+    inlines = [PropertyImageInline]
+    fields = [
+        'title', 'description', 'price_per_day',
+        'make', 'model', 'year', 'license_plate',
+        'color', 'seats', 'guests', 'transmission', 'fuel_type',
+        'country', 'country_code', 'city', 'address', 'category',
+        'favorited', 'owner', 'is_available', 'is_insured',
+    ]
+
+@admin.register(PropertyImage)
+class PropertyImageAdmin(admin.ModelAdmin):
+    list_display = ['property_listing', 'caption', 'is_primary', 'created_at']
+    list_filter = ['is_primary', 'created_at']

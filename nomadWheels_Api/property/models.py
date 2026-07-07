@@ -1,6 +1,7 @@
 import uuid
 from django.conf import settings
 from django.db import models
+from django.core.exceptions import ValidationError
 
 from user.models import User
 # Create your models here.
@@ -70,7 +71,7 @@ class Property(models.Model):
     # relationships
     favorited = models.ManyToManyField(User, related_name='favorite_vehicles', blank=True)
     # image = models.ImageField(upload_to='uploads/properties')
-    images = models.ManyToManyField('PropertyImage', blank=True, related_name='properties')
+    # images = models.ManyToManyField('PropertyImage', blank=True, related_name='properties')
     owner = models.ForeignKey(User,related_name='properties', on_delete=models.CASCADE)
 
     #status
@@ -84,25 +85,54 @@ class Property(models.Model):
     def __str__(self):
         return f"{self.year} {self.make} {self.model} - {self.title}"
     
+    @property
     def primary_image_url(self):
         primary = self.images.filter(is_primary=True).first()
-        if primary:
-            return f'{settings.WEBSITE_URL}{primary.image.url}'
-        first = self.images.first()
-        if first:
-            return f'{settings.WEBSITE_URL}{first.image.url}'
+        img = primary or self.images.first()
+        if img and img.image:
+            website_url = getattr(settings,'WEBSITE_URL', '')
+            return f'{website_url}{img.image.url}'
         return None
+        # if primary:
+        #     return f'{settings.WEBSITE_URL}{primary.image.url}'
+        # first = self.images.first()
+        # if first:
+        #     return f'{settings.WEBSITE_URL}{first.image.url}'
+        # return None
     
 class PropertyImage(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    property = models.ForeignKey(Property, related_name='property_images', on_delete=models.CASCADE)
+    property_listing = models.ForeignKey(
+        Property, 
+        related_name='images', 
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
     image = models.ImageField(upload_to='uploads/properties')
     is_primary = models.BooleanField(default=False, help_text="Main display image")
     caption = models.CharField(max_length=255, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    @property
     def image_url(self):
-        return f"{settings.WEBSITE_URL}{self.image.url}"
+        if self.image:
+            website_url = getattr(settings, 'WEBSITE_URL', '')
+            return f"{settings.WEBSITE_URL}{self.image.url}"
+        return None
+    
+    def save(self, *args, **kwargs):
+        if self.is_primary:
+            PropertyImage.objects.filter(
+                property_listing=self.property_listing,
+                is_primary=True
+            ).exclude(pk=self.pk).update(is_primary=False)
+
+            
+        super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return self.caption or self.image.name or "Unnamed Image"
     
 class Booking(models.Model):
     STATUS_CHOICES = [
