@@ -17,7 +17,7 @@ class PropertyImageSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at']
 
     def get_image_url(self, obj):
-        return obj.image_url()
+        return obj.image_url
     
 class PropertyListSerializer(serializers.ModelSerializer):
     """
@@ -50,7 +50,7 @@ class PropertyListSerializer(serializers.ModelSerializer):
         ]
 
     def get_primary_image_url(self,obj):
-        return obj.primary_image_url()
+        return obj.primary_image_url
     
     def get_is_favorited(self,obj):
         request = self.context.get('request')
