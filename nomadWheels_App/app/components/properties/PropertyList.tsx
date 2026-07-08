@@ -8,7 +8,7 @@ import PropertyListItem from './PropertyListItem';
 export type PropertyType = {
   id: string;
   title: string;
-  image_url: string;
+  primary_image_url: string | null;
   price_per_day: number;
 }
 
