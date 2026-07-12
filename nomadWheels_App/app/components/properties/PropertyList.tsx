@@ -12,29 +12,20 @@ export type PropertyType = {
   primary_image_url: string | null;
   price_per_day: number;
 }
-
+export type PropertyResponse ={
+  data: PropertyType[]
+}
 const PropertyList = () => {
   const [properties, setProperties] = useState<PropertyType[]>([]);
 
   const getProperties = async () => {
-    const url = 'http://localhost:8080/api/properties/';
+    const tmpProperties = await apiService.get<PropertyResponse>('/api/properties')
 
-    await fetch(url, {
-      method: 'GET',
-    })
-      .then(response => response.json())
-      .then((json) => {
-        console.log('json', json);
-
-        setProperties(json.data)
-      })
-      .catch((error) => {
-        console.log('error',error)
-      });
+    setProperties(tmpProperties.data);
   };
 
   useEffect(() => {
-    apiService.get("/api/properties/")
+    
     getProperties();
 
   }, []);

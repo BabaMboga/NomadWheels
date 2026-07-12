@@ -1,8 +1,8 @@
 const apiService ={
-    get: async function (url: string) {
+    get: async function <T>(url: string) : Promise<T> {
         console.log('get', url)
 
-        return new Promise((resolve, reject) => {
+        return new Promise<T>((resolve, reject) => {
             console.log("NEXT_PUBLIC_API_HOST", process.env.NEXT_PUBLIC_API_HOST);
             console.log("All env =", process.env);
             fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`, {
@@ -13,7 +13,7 @@ const apiService ={
                 }
             })
                 .then(response => response.json())
-                .then((json) => {
+                .then((json: T) => {
                     console.log('Response:', json)
 
                     resolve(json)
