@@ -4,6 +4,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import PropertyListItem from './PropertyListItem';
+import apiService from '@/app/services/apiService';
 
 export type PropertyType = {
   id: string;
@@ -33,7 +34,9 @@ const PropertyList = () => {
   };
 
   useEffect(() => {
+    apiService.get("/api/properties/")
     getProperties();
+
   }, []);
   return (
     <>
