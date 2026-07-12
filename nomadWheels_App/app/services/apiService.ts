@@ -4,6 +4,7 @@ const apiService ={
 
         return new Promise((resolve, reject) => {
             console.log("NEXT_PUBLIC_API_HOST", process.env.NEXT_PUBLIC_API_HOST);
+            console.log("All env =", process.env);
             fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`, {
                 method: 'GET',
                 headers: {
