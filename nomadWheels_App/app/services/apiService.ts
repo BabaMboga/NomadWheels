@@ -23,6 +23,33 @@ const apiService ={
                     reject(error);
                 }))
         })
+    },
+
+    post: async function<T>(url: string, data: unknown): Promise<T> {
+
+        console.log('post', url, data);
+
+        return new Promise<T>((resolve, reject) => {
+            fetch(`${process.env.NEXT_PUBLIC_API_HOST}${url}`, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(response => response.json())
+                .then((json: T) => {
+                    console.log('Response:', json);
+
+                    resolve(json);
+                })
+                .catch((error => {
+                    console.log('Error', error);
+                    reject(error);
+                }))
+        })
+
     }
 
 };
