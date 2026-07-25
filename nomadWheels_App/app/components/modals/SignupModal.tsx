@@ -34,7 +34,7 @@ const SignupModal = () => {
             password2: password2
         }
 
-        const response = await apiService.post<SignupResponse>('/api/auth/register', formData);
+        const response = await apiService.post<SignupResponse>('/api/auth/register/', formData);
 
         if (response.access) {
             // handleLogin
