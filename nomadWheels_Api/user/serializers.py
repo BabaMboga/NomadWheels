@@ -1,6 +1,7 @@
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
+from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 import uuid
@@ -12,7 +13,8 @@ class CustomRegisterSerializer(RegisterSerializer):
     password2 = serializers.CharField(write_only=True, required=True)
 
     def validate_email(self, email):
-        if get_adapter().is_email_taken(email):
+        User = get_user_model()
+        if User.objects.filter(email__iexact=email).exists(): #iexact makes the email check case-insensitive 
             raise serializers.ValidationError("A user is already registered with this e-mail address.")
         return email
 
