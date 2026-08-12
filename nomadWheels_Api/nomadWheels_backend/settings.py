@@ -52,7 +52,7 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
 
 # Deprecated Allauth Setting
 # ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_SIGNUP_FIELDS = ['email*','username*', 'password1*', 'password2*']
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 
 ACCOUNT_REFRESH_TOKEN = False
 
@@ -60,7 +60,12 @@ ACCOUNT_REFRESH_TOKEN = False
 # ACCOUNT_AUTHENTICATION_METHOD = 'email' 
 
 ACCOUNT_LOGIN_METHODS = {"email"}
+
+# REST_AUTH_REGISTER_SERIALIZERS = {
+#     'REGISTER_SERIALIZER' : 'user.serializers.CustomRegisterSerializer',
+# }
 ACCOUNT_EMAIL_VERIFICATION = os.environ.get("ACCOUNT_EMAIL_VERIFICATION", "optional")
+# ACCOUNT_EMAIL_VERIFICATION= "none"
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -80,7 +85,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 REST_AUTH = {
     "USE_JWT" : True,
-    "JWT_AUTH_HTTPONLY" : False
+    "JWT_AUTH_HTTPONLY" : False,
+    'REGISTER_SERIALIZER' : 'user.serializers.CustomRegisterSerializer',
 }
 
 # Application definition
@@ -103,6 +109,7 @@ INSTALLED_APPS = [
 
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
 
     'dj_rest_auth',
     'dj_rest_auth.registration',

@@ -1,0 +1,41 @@
+'use server';
+
+import { cookies } from "next/headers";
+
+export async function handleLogin(userId: string, accessToken: string, refreshToken: string){
+
+    const cookieStore = await cookies();
+
+    cookieStore.set('session_userid', userId, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 60 * 60 * 24 * 7, // one week
+        path: '/'
+    });
+
+    cookieStore.set('session_access_token', accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 60 * 60 , // one hour
+        path: '/'
+    });
+
+    cookieStore.set('session_refresh_token', refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 60 * 60 * 24 * 7, // one week
+        path: '/'
+    });
+}
+
+export async function resetAuthCookies() {
+    (await cookies()).set('session_userid', '');
+    (await cookies()).set('session_access_token', '');
+    (await cookies()).set('session_refresh_token', '');
+}
+
+// get data from the cookies
+export async function getUserId() {
+    const userId = (await cookies()).get('session_userid')?.value;
+    return userId ? userId : null;
+}
