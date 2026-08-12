@@ -65,6 +65,7 @@ ACCOUNT_LOGIN_METHODS = {"email"}
 #     'REGISTER_SERIALIZER' : 'user.serializers.CustomRegisterSerializer',
 # }
 ACCOUNT_EMAIL_VERIFICATION = os.environ.get("ACCOUNT_EMAIL_VERIFICATION", "optional")
+# ACCOUNT_EMAIL_VERIFICATION= "none"
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
