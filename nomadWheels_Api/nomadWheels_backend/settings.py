@@ -61,9 +61,9 @@ ACCOUNT_REFRESH_TOKEN = False
 
 ACCOUNT_LOGIN_METHODS = {"email"}
 
-REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER' : 'user.serializers.CustomRegisterSerializer',
-}
+# REST_AUTH_REGISTER_SERIALIZERS = {
+#     'REGISTER_SERIALIZER' : 'user.serializers.CustomRegisterSerializer',
+# }
 ACCOUNT_EMAIL_VERIFICATION = os.environ.get("ACCOUNT_EMAIL_VERIFICATION", "optional")
 
 REST_FRAMEWORK = {
@@ -84,7 +84,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 REST_AUTH = {
     "USE_JWT" : True,
-    "JWT_AUTH_HTTPONLY" : False
+    "JWT_AUTH_HTTPONLY" : False,
+    'REGISTER_SERIALIZER' : 'user.serializers.CustomRegisterSerializer',
 }
 
 # Application definition
