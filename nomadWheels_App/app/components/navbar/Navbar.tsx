@@ -19,6 +19,7 @@ const Navbar = async () => {
               alt="nomadwheels logo"
               width={60}
               height={50}
+              className= "w-auto h-auto"
             />
           </Link>
 
