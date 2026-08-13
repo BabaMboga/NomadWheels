@@ -20,5 +20,12 @@ jobs:
         pip install -r nomadWheels_Api/requirements.txt
         pip install pylint pylint-django
     - name: Analysing the code with pylint
+      env:
+        SECRET_KEY: "dummy-secret-key-for-ci-only"
+        DEBUG: "1"
+        DJANGO_ALLOWED_HOSTS: "localhost 127.0.0.1"
+        SQL_ENGINE: "django.db.backends.sqlite3"
+        SQL_DATABASE: "dummy.db"
+        DJANGO_SETTINGS_MODULE: "nomadWheels_backend.settings"
       run: |
         pylint --rcfile=nomadWheels_Api/.pylintrc $(git ls-files '*.py')
