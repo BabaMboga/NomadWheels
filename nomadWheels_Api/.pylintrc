@@ -10,6 +10,10 @@ disable=
     missing-function-docstring,
     too-few-public-methods,
     invalid-name,
+    abstract-method,
 
 [FORMAT]
 max-line-length=100
+
+[MAIN]
+fail-under=7.5
